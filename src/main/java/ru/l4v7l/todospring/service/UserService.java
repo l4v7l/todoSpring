@@ -1,29 +1,19 @@
 package ru.l4v7l.todospring.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import ru.l4v7l.todospring.dto.TaskDto;
 import ru.l4v7l.todospring.dto.UserDto;
-import ru.l4v7l.todospring.repository.UserRepository;
 
-@Service
-@RequiredArgsConstructor
-public class UserService {
+import java.util.List;
 
-    private final UserRepository repository;
+public interface UserService {
 
-    public UserDto create(UserDto user) {
-        return repository.create(user);
-    }
+    String create(UserDto user);
 
-    public UserDto get(Long id) {
-        return repository.get(id);
-    }
+    UserDto get(Long id);
 
-    public UserDto update(Long id, UserDto user) {
-        return repository.update(id, user);
-    }
+    List<TaskDto> getAllTasks(Long id);
 
-    public void delete(Long id) {
-        repository.delete(id);
-    }
+    String update(UserDto user);
+
+    void delete(Long id);
 }

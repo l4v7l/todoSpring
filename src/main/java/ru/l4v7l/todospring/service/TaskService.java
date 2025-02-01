@@ -1,29 +1,25 @@
 package ru.l4v7l.todospring.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import ru.l4v7l.todospring.dto.TaskDto;
-import ru.l4v7l.todospring.repository.TaskRepository;
+import ru.l4v7l.todospring.entity.Task;
 
-@Service
-@RequiredArgsConstructor
-public class TaskService {
+import java.util.List;
 
-    private final TaskRepository repository;
+public interface TaskService {
 
-    public TaskDto create(TaskDto task) {
-        return repository.create(task);
-    }
+    String create(TaskDto taskDto);
 
-    public TaskDto get(Long id) {
-        return repository.get(id);
-    }
+    TaskDto get(Long id);
 
-    public TaskDto update(Long id, TaskDto task) {
-        return repository.update(id, task);
-    }
+    List<TaskDto> getAllTasks();
 
-    public void delete(Long id) {
-        repository.delete(id);
-    }
+    List<TaskDto> getAllTasksByStatus(String status);
+
+    List<TaskDto> getAllTasksSortedByStatus();
+
+    List<TaskDto> getAllTasksSortedByDueDate();
+
+    String update(Task task);
+
+    void delete(Long id);
 }

@@ -1,40 +1,18 @@
 package ru.l4v7l.todospring.repository;
 
-import org.springframework.stereotype.Repository;
-import ru.l4v7l.todospring.dto.TaskDto;
+import org.springframework.data.jpa.repository.JpaRepository;
+import ru.l4v7l.todospring.entity.Task;
+import ru.l4v7l.todospring.enume.TaskStatus;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
-@Repository
-public class TaskRepository {
+public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    //TEMP
-    private final List<TaskDto> list = new ArrayList<>();
+    List<Task> findAllByAuthor_Id(Long id);
 
-    public TaskDto create(TaskDto task) {
-        list.add(task);
-        return task;
-    }
+    List<Task> findAllByStatus(TaskStatus status);
 
-    public TaskDto get(Long id) {
-        return list.stream().filter(t -> t.getId().equals(id)).findFirst().orElse(null);
-    }
+    List<Task> findAllByOrderByStatus();
 
-    public TaskDto update(Long id, TaskDto task) {
-        int index = IntStream.range(0, list.size()).filter(i -> list.get(i).getId().equals(id)).findFirst().orElse(-1);
-
-        if (index == -1) {
-            return null;
-        }
-
-        list.set(index, task);
-
-        return task;
-    }
-
-    public void delete(Long id) {
-        list.remove(list.stream().filter(t -> t.getId().equals(id)).findFirst().orElse(null));
-    }
+    List<Task> findAllByOrderByDueDate();
 }
