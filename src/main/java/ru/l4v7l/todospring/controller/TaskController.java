@@ -3,7 +3,10 @@ package ru.l4v7l.todospring.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.l4v7l.todospring.dto.TaskDto;
+import ru.l4v7l.todospring.entity.Task;
 import ru.l4v7l.todospring.service.TaskService;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -11,9 +14,9 @@ import ru.l4v7l.todospring.service.TaskService;
 public class TaskController {
     private final TaskService service;
 
-    @PutMapping
-    public TaskDto create(@RequestBody TaskDto task) {
-        return service.create(task);
+    @PostMapping
+    public String create(@RequestBody TaskDto taskDto) {
+        return service.create(taskDto);
     }
 
     @GetMapping("/{id}")
@@ -21,9 +24,29 @@ public class TaskController {
         return service.get(id);
     }
 
-    @PatchMapping("/{id}")
-    public TaskDto update(@PathVariable Long id, @RequestBody TaskDto task) {
-        return service.update(id, task);
+    @GetMapping("")
+    public List<TaskDto> getAllTasks() {
+        return service.getAllTasks();
+    }
+
+    @GetMapping("/{status}")
+    public List<TaskDto> getAllTasksByStatus(@PathVariable String status) {
+        return service.getAllTasksByStatus(status);
+    }
+
+    @GetMapping("/sorted-by-status")
+    public List<TaskDto> getAllTasksSortedByStatus() {
+        return service.getAllTasksSortedByStatus();
+    }
+
+    @GetMapping("/sorted-by-date")
+    public List<TaskDto> getAllTasksSortedByDueDate() {
+        return service.getAllTasksSortedByDueDate();
+    }
+
+    @PatchMapping("/{id}/update")
+    public String update(@RequestBody Task task) {
+        return service.update(task);
     }
 
     @DeleteMapping("/{id}")

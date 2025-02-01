@@ -2,8 +2,11 @@ package ru.l4v7l.todospring.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.l4v7l.todospring.dto.TaskDto;
 import ru.l4v7l.todospring.dto.UserDto;
 import ru.l4v7l.todospring.service.UserService;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -11,8 +14,8 @@ import ru.l4v7l.todospring.service.UserService;
 public class UserController {
     private final UserService service;
 
-    @PutMapping
-    public UserDto create(@RequestBody UserDto user) {
+    @PostMapping
+    public String create(@RequestBody UserDto user) {
         return service.create(user);
     }
 
@@ -21,9 +24,14 @@ public class UserController {
         return service.get(id);
     }
 
-    @PatchMapping("/{id}")
-    public UserDto update(@PathVariable Long id, @RequestBody UserDto user) {
-        return service.update(id, user);
+    @GetMapping("/{id}/tasks")
+    public List<TaskDto> getAllTasks(@PathVariable Long id) {
+        return service.getAllTasks(id);
+    }
+
+    @PatchMapping("/update")
+    public String update(@RequestBody UserDto user) {
+        return service.update(user);
     }
 
     @DeleteMapping("/{id}")
